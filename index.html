@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrient Retention Simulator</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Nutrient Analysis System</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="simulator">Simulator</a>
+                <a href="#" class="nav-link" data-page="information">Information</a>
+                <a href="#" class="nav-link" data-page="about">About</a>
+                <a href="#" class="nav-link" data-page="editor">Content Editor</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Simulator Page -->
+        <div id="simulator-page" class="page active">
+            <div class="container">
+                <header>
+                    <h1>Nutrient Retention Simulator</h1>
+                    <p>Analyzing how cooking methods affect nutritional value across food categories</p>
+                </header>
+
+                <div class="dashboard">
+                    <section class="controls">
+                        <h2>Parameters</h2>
+                        
+                        <div class="input-group">
+                            <label>Food Category</label>
+                            <select id="category-select">
+                                <option value="vegetables">Vegetables</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="meat">Meat & Poultry</option>
+                                <option value="fish">Fish & Seafood</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Food Selection</label>
+                            <select id="food-select">
+                                <option value="broccoli">Broccoli</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" id="cut-group" style="display: none;">
+                            <label>Cut / Portion</label>
+                            <select id="cut-select">
+                                <option value="default">Standard</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" id="weight-group" style="display: none;">
+                            <label>Portion Details</label>
+                            <div class="portion-info">
+                                <div class="portion-row">
+                                    <span class="portion-label">Weight:</span>
+                                    <span id="weight-display">150g</span>
+                                </div>
+                                <div class="portion-row">
+                                    <span class="portion-label">Details:</span>
+                                    <span id="thickness-display"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Cooking Method</label>
+                            <select id="method-select">
+                                <option value="boiling">Boiling</option>
+                                <option value="steaming">Steaming</option>
+                                <option value="microwaving">Microwaving</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Cooking Time</label>
+                            <div class="slider-container">
+                                <input type="range" id="time-slider" min="0" max="15" value="0" step="0.5">
+                                <span id="time-value">0.0 min</span>
+                            </div>
+                        </div>
+
+                        <div class="results">
+                            <div class="metric">
+                                <span class="metric-label">Nutrient Retention</span>
+                                <span class="metric-value" id="retention-value">100%</span>
+                            </div>
+                            <div class="retention-bar">
+                                <div class="retention-fill" id="retention-fill"></div>
+                            </div>
+                            <p class="status" id="status-text">Optimal nutrient preservation</p>
+                        </div>
+                    </section>
+
+                    <section class="chart-container-small">
+                        <h2>Method Comparison</h2>
+                        <canvas id="bar-chart"></canvas>
+                    </section>
+
+                    <section class="data-table">
+                        <h2>Nutritional Profile</h2>
+                        <table id="nutrient-table">
+                            <thead>
+                                <tr>
+                                    <th>Nutrient</th>
+                                    <th>Concentration</th>
+                                    <th>Heat Sensitivity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <!-- Large Chart Section -->
+                <section class="chart-container-large">
+                    <h2>Nutrient Retention Over Time</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="line-chart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Info Grid -->
+                <section class="info-grid-container">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h3>Boiling</h3>
+                            <p>Convection heat transfer through water medium. Water-soluble vitamins experience significant leaching.</p>
+                            <div class="stat-row">
+                                <span>Avg. Loss Rate</span>
+                                <span>6-9% per minute</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <h3>Steaming</h3>
+                            <p>Heat transfer via vapor phase. Reduced water contact minimizes nutrient migration.</p>
+                            <div class="stat-row">
+                                <span>Avg. Loss Rate</span>
+                                <span>3-5% per minute</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <h3>Microwaving</h3>
+                            <p>Heat transfer via electromagnetic radiation. Reduced cooking time preserves heat-labile compounds.</p>
+                            <div class="stat-row">
+                                <span>Avg. Loss Rate</span>
+                                <span>2-4% per minute</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Information Page -->
+        <div id="information-page" class="page">
+            <div class="container">
+                <header>
+                    <h1>Scientific Information</h1>
+                    <p>Understanding the science behind cooking and nutrition</p>
+                </header>
+
+                <div class="info-content">
+                    <section class="info-section">
+                        <h2>Mathematical Models & Formulas</h2>
+                        <div class="info-card-large">
+                            <h3>General Retention Formula</h3>
+                            <div class="formula-box">
+                                <code>Retention(%) = max(MinRetention, BaseRetention - (Time × DegradationRate × CutModifier))</code>
+                            </div>
+                            <p><strong>Where:</strong></p>
+                            <ul class="formula-list">
+                                <li><strong>MinRetention:</strong> Minimum retention percentage (floor value to prevent negative results)</li>
+                                <li><strong>BaseRetention:</strong> Starting retention at 100%</li>
+                                <li><strong>Time:</strong> Cooking time in minutes</li>
+                                <li><strong>DegradationRate:</strong> Percentage loss per minute (method-dependent)</li>
+                                <li><strong>CutModifier:</strong> Adjustment factor based on portion thickness (0.88 - 1.12)</li>
+                            </ul>
+
+                            <h3>Example: Broccoli Boiling</h3>
+                            <div class="formula-box">
+                                <code>Retention = max(40, (100 - t × 8) × 1.0)</code>
+                            </div>
+                            <p>At 5 minutes: Retention = max(40, 100 - 40) = 60%</p>
+
+                            <h3>Degradation Rates by Method</h3>
+                            <table class="formula-table">
+                                <thead>
+                                    <tr>
+                                        <th>Food Type</th>
+                                        <th>Boiling</th>
+                                        <th>Steaming</th>
+                                        <th>Microwaving</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Broccoli</td>
+                                        <td>8% per min</td>
+                                        <td>4% per min</td>
+                                        <td>3% per min</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Spinach</td>
+                                        <td>9% per min</td>
+                                        <td>4.5% per min</td>
+                                        <td>3.5% per min</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Blueberries</td>
+                                        <td>7% per min</td>
+                                        <td>3.5% per min</td>
+                                        <td>2.5% per min</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h3>Cut Modifier System</h3>
+                            <p>Thinner cuts cook faster with less total heat exposure, preserving more nutrients:</p>
+                            <ul class="formula-list">
+                                <li><strong>Thin cuts (1-1.5cm):</strong> Modifier = 1.05-1.12 (better retention)</li>
+                                <li><strong>Standard cuts (2-2.5cm):</strong> Modifier = 0.95-1.0 (baseline)</li>
+                                <li><strong>Thick cuts (3-4cm):</strong> Modifier = 0.88-0.92 (more degradation)</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="info-section">
+                        <h2>Scientific References</h2>
+                        <div class="info-card-large">
+                            <div class="reference-item">
+                                <h4>1. Effects of Cooking on Broccoli</h4>
+                                <p class="reference-citation">Yuan, G.F., Sun, B., Yuan, J., & Wang, Q.M. (2009). "Effects of different cooking methods on health-promoting compounds of broccoli." <em>Journal of Zhejiang University Science B</em>, 10(8), 580-588.</p>
+                                <p class="reference-summary">This study analyzed vitamin C, soluble protein, and antioxidant content in broccoli after boiling, steaming, and microwaving. Results showed steaming preserved nutrients better than boiling.</p>
+                            </div>
+
+                            <div class="reference-item">
+                                <h4>2. Nutritional Changes in Vegetables During Cooking</h4>
+                                <p class="reference-citation">Miglio, C., Chiavaro, E., Visconti, A., Fogliano, V., & Pellegrini, N. (2008). "Effects of different cooking methods on nutritional and physicochemical characteristics of selected vegetables." <em>Journal of Agricultural and Food Chemistry</em>, 56(1), 139-147.</p>
+                                <p class="reference-summary">Comprehensive study measuring nutrient retention across multiple vegetables and cooking methods. Established baseline degradation rates used in this simulator.</p>
+                            </div>
+
+                            <div class="reference-item">
+                                <h4>3. Antioxidant Capacity in Cooked Vegetables</h4>
+                                <p class="reference-citation">Pellegrini, N., Chiavaro, E., Gardana, C., Mazzeo, T., Contino, D., Gallo, M., et al. (2010). "Effect of different cooking methods on color, phytochemical concentration, and antioxidant capacity of raw and frozen brassica vegetables." <em>Journal of Agricultural and Food Chemistry</em>, 58(7), 4310-4321.</p>
+                                <p class="reference-summary">Examined how cooking affects antioxidant compounds in vegetables like broccoli and brussels sprouts. Showed microwave cooking preserves anthocyanins better than boiling.</p>
+                            </div>
+
+                            <div class="reference-item">
+                                <h4>4. Vitamin Degradation Kinetics</h4>
+                                <p class="reference-citation">Rickman, J.C., Barrett, D.M., & Bruhn, C.M. (2007). "Nutritional comparison of fresh, frozen and canned fruits and vegetables. Part 1. Vitamins C and B and phenolic compounds." <em>Journal of the Science of Food and Agriculture</em>, 87(6), 930-944.</p>
+                                <p class="reference-summary">Detailed analysis of vitamin degradation rates during thermal processing. Provides mathematical models for first-order degradation kinetics used in this simulation.</p>
+                            </div>
+
+                            <div class="reference-item">
+                                <h4>5. Meat Protein Denaturation</h4>
+                                <p class="reference-citation">García-Segovia, P., Andrés-Bello, A., & Martínez-Monzó, J. (2007). "Effect of cooking method on mechanical properties, color and structure of beef muscle." <em>Journal of Food Engineering</em>, 80(3), 813-821.</p>
+                                <p class="reference-summary">Studied how different cooking methods affect protein structure and nutrient retention in meat. Informed the degradation rates for meat products in this simulator.</p>
+                            </div>
+
+                            <div class="reference-item">
+                                <h4>6. USDA Nutrient Database</h4>
+                                <p class="reference-citation">U.S. Department of Agriculture, Agricultural Research Service. (2021). "FoodData Central." <em>USDA National Nutrient Database</em>. Available at: fdc.nal.usda.gov</p>
+                                <p class="reference-summary">Primary source for baseline nutrient composition data for all foods in the simulator. Provides standardized nutrient values for raw and cooked foods.</p>
+                            </div>
+
+                            <div class="reference-item">
+                                <h4>7. Omega-3 Stability During Cooking</h4>
+                                <p class="reference-citation">Gladyshev, M.I., Sushchik, N.N., & Makhutova, O.N. (2013). "Production of EPA and DHA in aquatic ecosystems and their transfer to the land." <em>Prostaglandins & Other Lipid Mediators</em>, 107, 117-126.</p>
+                                <p class="reference-summary">Examines stability of omega-3 fatty acids under heat. Shows that gentle cooking methods like steaming preserve omega-3s better than high-heat grilling.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-section">
+                        <h2>Physics: Heat Transfer Mechanisms</h2>
+                        <div class="info-card-large">
+                            <h3>Conduction</h3>
+                            <p>Direct heat transfer through physical contact between molecules. When cooking surfaces touch food, thermal energy moves from the hot surface into the cooler food material. This process occurs in pan-frying, grilling, and contact cooking methods.</p>
+                            
+                            <h3>Convection</h3>
+                            <p>Heat transfer through fluid motion, either liquid or gas. In boiling, hot water molecules circulate around food, transferring thermal energy. In oven baking, hot air circulates to cook food evenly.</p>
+                            
+                            <h3>Radiation</h3>
+                            <p>Energy transfer through electromagnetic waves. Microwaves use radio frequency radiation to excite water molecules in food, generating heat from within. This method often preserves nutrients better due to shorter cooking times.</p>
+                        </div>
+                    </section>
+
+                    <section class="info-section">
+                        <h2>Chemistry: Molecular Changes During Cooking</h2>
+                        <div class="info-card-large">
+                            <h3>Vitamin Degradation</h3>
+                            <p>Heat-labile vitamins such as Vitamin C and B-complex vitamins undergo molecular breakdown when exposed to high temperatures. Water-soluble vitamins also leach into cooking water, leading to nutrient loss. The simulator models this using first-order degradation kinetics.</p>
+                            
+                            <h3>Protein Denaturation</h3>
+                            <p>Heat disrupts hydrogen bonds and hydrophobic interactions in protein tertiary structure. While this improves digestibility, excessive heat can reduce bioavailability of certain amino acids.</p>
+                            
+                            <h3>Antioxidant Stability</h3>
+                            <p>Compounds like anthocyanins in blueberries degrade rapidly with heat, while lycopene in tomatoes becomes more bioavailable. Understanding these patterns helps optimize cooking methods.</p>
+                        </div>
+                    </section>
+
+                    <section class="info-section">
+                        <h2>Biology: Nutrient Function</h2>
+                        <div class="info-card-large">
+                            <h3>Superfoods in This Simulator</h3>
+                            <p><strong>Broccoli:</strong> High in Vitamin C, Vitamin K, and sulforaphane. Supports immune function and may have cancer-preventive properties.</p>
+                            <p><strong>Blueberries:</strong> Rich in anthocyanins and antioxidants. Supports brain health and cognitive function.</p>
+                            <p><strong>Spinach:</strong> Excellent source of iron, folate, and Vitamin A. Essential for blood health and cellular function.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about-page" class="page">
+            <div class="container">
+                <header>
+                    <h1>About This Project</h1>
+                    <p>Collaborative Science Project: Smart Superfood Cooking Station</p>
+                </header>
+
+                <div class="info-content" id="about-content">
+                    <!-- Content will be loaded from localStorage or default -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Editor Page -->
+        <div id="editor-page" class="page">
+            <div class="container">
+                <header>
+                    <h1>Content Editor</h1>
+                    <p>Edit the About page content without modifying code</p>
+                </header>
+
+                <div class="editor-container">
+                    <section class="editor-section">
+                        <h2>Edit About Page Content</h2>
+                        <p class="editor-help">Write your content below. You can use basic HTML tags like &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;em&gt;</p>
+                        
+                        <textarea id="content-editor" rows="20"></textarea>
+                        
+                        <div class="editor-actions">
+                            <button class="btn btn-save" id="save-content">Save Content</button>
+                            <button class="btn btn-reset" id="reset-content">Reset to Default</button>
+                            <button class="btn btn-preview" id="preview-content">Preview</button>
+                        </div>
+                        
+                        <div id="save-message" class="save-message"></div>
+                    </section>
+
+                    <section class="editor-section">
+                        <h2>Preview</h2>
+                        <div id="content-preview" class="content-preview">
+                            <p class="preview-placeholder">Click "Preview" to see how your content will look</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
