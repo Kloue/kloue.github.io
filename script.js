@@ -146,58 +146,6 @@ const foodDatabase = {
                 { name: 'Zinc', level: 'High', sensitivity: 'Low' }
             ]
         }
-    },
-    fish: {
-        salmon: {
-            cuts: {
-                'fillet-thick': { weight: 180, description: 'Center-cut fillet, 3cm thick', modifier: 0.92 },
-                'fillet-thin': { weight: 140, description: 'Tail fillet, 2cm thick', modifier: 1.0 },
-                'steak': { weight: 200, description: 'Cross-section steak, 2.5cm thick', modifier: 0.95 }
-            },
-            boiling: (t, mod) => Math.max(55, (100 - (t * 5)) * mod),
-            steaming: (t, mod) => Math.max(70, (100 - (t * 3.5)) * mod),
-            grilling: (t, mod) => Math.max(65, (100 - (t * 4.2)) * mod),
-            baking: (t, mod) => Math.max(75, (100 - (t * 2.8)) * mod),
-            nutrients: [
-                { name: 'Omega-3 Fatty Acids', level: 'Very High', sensitivity: 'High' },
-                { name: 'Vitamin D', level: 'Very High', sensitivity: 'Medium' },
-                { name: 'Protein', level: 'High', sensitivity: 'Medium' },
-                { name: 'Vitamin B12', level: 'High', sensitivity: 'Medium' }
-            ]
-        },
-        tuna: {
-            cuts: {
-                'steak-thick': { weight: 200, description: 'Tuna steak, 3cm thick', modifier: 0.9 },
-                'steak-thin': { weight: 150, description: 'Tuna steak, 2cm thick', modifier: 1.0 }
-            },
-            boiling: (t, mod) => Math.max(52, (100 - (t * 5.5)) * mod),
-            steaming: (t, mod) => Math.max(68, (100 - (t * 4)) * mod),
-            grilling: (t, mod) => Math.max(63, (100 - (t * 4.5)) * mod),
-            baking: (t, mod) => Math.max(72, (100 - (t * 3.2)) * mod),
-            nutrients: [
-                { name: 'Protein', level: 'Very High', sensitivity: 'Medium' },
-                { name: 'Selenium', level: 'Very High', sensitivity: 'Low' },
-                { name: 'Omega-3 Fatty Acids', level: 'High', sensitivity: 'High' },
-                { name: 'Vitamin B12', level: 'High', sensitivity: 'Medium' }
-            ]
-        },
-        shrimp: {
-            cuts: {
-                'large': { weight: 85, description: 'Large shrimp, 16-20 count', modifier: 1.0 },
-                'jumbo': { weight: 110, description: 'Jumbo shrimp, 10-15 count', modifier: 0.93 },
-                'medium': { weight: 70, description: 'Medium shrimp, 26-30 count', modifier: 1.07 }
-            },
-            boiling: (t, mod) => Math.max(50, (100 - (t * 8)) * mod),
-            steaming: (t, mod) => Math.max(65, (100 - (t * 5)) * mod),
-            grilling: (t, mod) => Math.max(60, (100 - (t * 6)) * mod),
-            microwaving: (t, mod) => Math.max(68, (100 - (t * 4.5)) * mod),
-            nutrients: [
-                { name: 'Protein', level: 'Very High', sensitivity: 'High' },
-                { name: 'Selenium', level: 'High', sensitivity: 'Low' },
-                { name: 'Vitamin B12', level: 'High', sensitivity: 'Medium' },
-                { name: 'Iodine', level: 'High', sensitivity: 'Low' }
-            ]
-        }
     }
 };
 
@@ -262,9 +210,8 @@ function onCategoryChange() {
 function updateMethodOptions(category) {
     methodSelect.innerHTML = '';
     
-    if (category === 'meat' || category === 'fish') {
+    if (category === 'meat') {
         const methods = ['boiling', 'steaming', 'grilling', 'baking'];
-        if (category === 'fish') methods.push('microwaving');
         
         methods.forEach(method => {
             const option = document.createElement('option');
@@ -328,13 +275,11 @@ function displayFunNote() {
     const food = foodSelect.value;
     const foodData = foodDatabase[category][food];
     
-    // Remove existing fun note if any
     const existingNote = document.querySelector('.fun-note');
     if (existingNote) {
         existingNote.remove();
     }
     
-    // Add fun note if food has one
     if (foodData.funNote) {
         const controls = document.querySelector('.controls');
         const funNoteDiv = document.createElement('div');
@@ -558,110 +503,7 @@ function updateStatus(retention, method, time) {
     statusText.textContent = message;
 }
 
-// Content Editor Functionality
-const contentEditor = document.getElementById('content-editor');
-const saveButton = document.getElementById('save-content');
-const resetButton = document.getElementById('reset-content');
-const previewButton = document.getElementById('preview-content');
-const saveMessage = document.getElementById('save-message');
-const contentPreview = document.getElementById('content-preview');
-const aboutContent = document.getElementById('about-content');
-
-const defaultContent = `
-<section class="info-section">
-    <h2>Project Overview</h2>
-    <div class="info-card-large">
-        <p>This project demonstrates how different cooking methods affect the nutritional value of superfoods including broccoli, blueberries, and spinach. By integrating Physics, Chemistry, Biology, Design Technology, and Computer Science, this simulator provides a comprehensive analysis of nutrient retention during cooking.</p>
-        
-        <h3>Key Superfoods Analyzed</h3>
-        <p><strong>Broccoli:</strong> Rich in Vitamin C, Vitamin K, and sulforaphane. Supports immune function and may have cancer-preventive properties.</p>
-        <p><strong>Blueberries:</strong> High in anthocyanins and antioxidants. Supports brain health, memory, and cognitive function.</p>
-        <p><strong>Spinach:</strong> Excellent source of iron, folate, and Vitamin A. Essential for blood health, energy production, and cellular function.</p>
-        
-        <h3>Educational Objectives</h3>
-        <p>The primary goal is to create an interactive learning experience that visualizes complex scientific concepts. Users can manipulate cooking parameters and observe real-time nutrient retention changes, developing intuition about the relationships between heat transfer, chemical reactions, and biological outcomes.</p>
-        
-        <h3>Interdisciplinary Integration</h3>
-        <p><strong>Physics:</strong> Heat transfer mechanisms (conduction, convection, radiation)</p>
-        <p><strong>Chemistry:</strong> Molecular degradation of vitamins and antioxidants</p>
-        <p><strong>Biology:</strong> Nutrient function and bioavailability in the human body</p>
-        <p><strong>Design Technology:</strong> Smart cooking systems and optimization</p>
-        <p><strong>Computer Science:</strong> Mathematical modeling and data visualization</p>
-    </div>
-</section>
-
-<section class="info-section">
-    <h2>Methodology</h2>
-    <div class="info-card-large">
-        <h3>Data Sources</h3>
-        <p>Nutrient retention values are based on peer-reviewed research in food science and nutrition journals. Degradation rates reflect average values from multiple studies, accounting for variability in experimental conditions.</p>
-        
-        <h3>Model Assumptions</h3>
-        <p>The simulation assumes uniform temperature distribution, constant heat transfer rates, and first-order degradation kinetics. While real-world scenarios involve more complexity, these simplifications provide educational clarity while maintaining reasonable accuracy.</p>
-    </div>
-</section>
-`;
-
-// Load content from localStorage or use default
-function loadContent() {
-    const savedContent = localStorage.getItem('aboutPageContent');
-    const content = savedContent || defaultContent;
-    aboutContent.innerHTML = content;
-    contentEditor.value = content;
-}
-
-// Save content to localStorage
-function saveContent() {
-    const content = contentEditor.value;
-    try {
-        localStorage.setItem('aboutPageContent', content);
-        aboutContent.innerHTML = content;
-        showMessage('Content saved successfully!', 'success');
-    } catch (e) {
-        showMessage('Error saving content. Please try again.', 'error');
-    }
-}
-
-// Reset to default content
-function resetContent() {
-    if (confirm('Are you sure you want to reset to default content? This will erase your current content.')) {
-        localStorage.removeItem('aboutPageContent');
-        contentEditor.value = defaultContent;
-        aboutContent.innerHTML = defaultContent;
-        showMessage('Content reset to default', 'success');
-    }
-}
-
-// Preview content
-function previewContent() {
-    contentPreview.innerHTML = contentEditor.value;
-}
-
-// Show save message
-function showMessage(message, type) {
-    saveMessage.textContent = message;
-    saveMessage.className = `save-message ${type}`;
-    setTimeout(() => {
-        saveMessage.className = 'save-message';
-    }, 3000);
-}
-
-// Event listeners for editor
-if (saveButton) {
-    saveButton.addEventListener('click', saveContent);
-}
-
-if (resetButton) {
-    resetButton.addEventListener('click', resetContent);
-}
-
-if (previewButton) {
-    previewButton.addEventListener('click', previewContent);
-}
-
-// Load content on page load
 document.addEventListener('DOMContentLoaded', () => {
     initCharts();
     onCategoryChange();
-    loadContent();
 });

@@ -15,7 +15,6 @@
                 <a href="#" class="nav-link active" data-page="simulator">Simulator</a>
                 <a href="#" class="nav-link" data-page="information">Information</a>
                 <a href="#" class="nav-link" data-page="about">About</a>
-                <a href="#" class="nav-link" data-page="editor">Content Editor</a>
             </div>
         </div>
     </nav>
@@ -39,7 +38,6 @@
                                 <option value="vegetables">Vegetables</option>
                                 <option value="fruits">Fruits</option>
                                 <option value="meat">Meat & Poultry</option>
-                                <option value="fish">Fish & Seafood</option>
                             </select>
                         </div>
 
@@ -100,7 +98,7 @@
                         </div>
                     </section>
 
-                    <section class="chart-container-small">
+                    <section class="chart-container-medium">
                         <h2>Method Comparison</h2>
                         <canvas id="bar-chart"></canvas>
                     </section>
@@ -272,12 +270,6 @@
                                 <p class="reference-citation">U.S. Department of Agriculture, Agricultural Research Service. (2021). "FoodData Central." <em>USDA National Nutrient Database</em>. Available at: fdc.nal.usda.gov</p>
                                 <p class="reference-summary">Primary source for baseline nutrient composition data for all foods in the simulator. Provides standardized nutrient values for raw and cooked foods.</p>
                             </div>
-
-                            <div class="reference-item">
-                                <h4>7. Omega-3 Stability During Cooking</h4>
-                                <p class="reference-citation">Gladyshev, M.I., Sushchik, N.N., & Makhutova, O.N. (2013). "Production of EPA and DHA in aquatic ecosystems and their transfer to the land." <em>Prostaglandins & Other Lipid Mediators</em>, 107, 117-126.</p>
-                                <p class="reference-summary">Examines stability of omega-3 fatty acids under heat. Shows that gentle cooking methods like steaming preserve omega-3s better than high-heat grilling.</p>
-                            </div>
                         </div>
                     </section>
 
@@ -331,39 +323,36 @@
                 </header>
 
                 <div class="info-content" id="about-content">
-                    <!-- Content will be loaded from localStorage or default -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Editor Page -->
-        <div id="editor-page" class="page">
-            <div class="container">
-                <header>
-                    <h1>Content Editor</h1>
-                    <p>Edit the About page content without modifying code</p>
-                </header>
-
-                <div class="editor-container">
-                    <section class="editor-section">
-                        <h2>Edit About Page Content</h2>
-                        <p class="editor-help">Write your content below. You can use basic HTML tags like &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;em&gt;</p>
-                        
-                        <textarea id="content-editor" rows="20"></textarea>
-                        
-                        <div class="editor-actions">
-                            <button class="btn btn-save" id="save-content">Save Content</button>
-                            <button class="btn btn-reset" id="reset-content">Reset to Default</button>
-                            <button class="btn btn-preview" id="preview-content">Preview</button>
+                    <section class="info-section">
+                        <h2>Project Overview</h2>
+                        <div class="info-card-large">
+                            <p>This project demonstrates how different cooking methods affect the nutritional value of superfoods including broccoli, blueberries, and spinach. By integrating Physics, Chemistry, Biology, Design Technology, and Computer Science, this simulator provides a comprehensive analysis of nutrient retention during cooking.</p>
+                            
+                            <h3>Key Superfoods Analyzed</h3>
+                            <p><strong>Broccoli:</strong> Rich in Vitamin C, Vitamin K, and sulforaphane. Supports immune function and may have cancer-preventive properties.</p>
+                            <p><strong>Blueberries:</strong> High in anthocyanins and antioxidants. Supports brain health, memory, and cognitive function.</p>
+                            <p><strong>Spinach:</strong> Excellent source of iron, folate, and Vitamin A. Essential for blood health, energy production, and cellular function.</p>
+                            
+                            <h3>Educational Objectives</h3>
+                            <p>The primary goal is to create an interactive learning experience that visualizes complex scientific concepts. Users can manipulate cooking parameters and observe real-time nutrient retention changes, developing intuition about the relationships between heat transfer, chemical reactions, and biological outcomes.</p>
+                            
+                            <h3>Interdisciplinary Integration</h3>
+                            <p><strong>Physics:</strong> Heat transfer mechanisms (conduction, convection, radiation)</p>
+                            <p><strong>Chemistry:</strong> Molecular degradation of vitamins and antioxidants</p>
+                            <p><strong>Biology:</strong> Nutrient function and bioavailability in the human body</p>
+                            <p><strong>Design Technology:</strong> Smart cooking systems and optimization</p>
+                            <p><strong>Computer Science:</strong> Mathematical modeling and data visualization</p>
                         </div>
-                        
-                        <div id="save-message" class="save-message"></div>
                     </section>
 
-                    <section class="editor-section">
-                        <h2>Preview</h2>
-                        <div id="content-preview" class="content-preview">
-                            <p class="preview-placeholder">Click "Preview" to see how your content will look</p>
+                    <section class="info-section">
+                        <h2>Methodology</h2>
+                        <div class="info-card-large">
+                            <h3>Data Sources</h3>
+                            <p>Nutrient retention values are based on peer-reviewed research in food science and nutrition journals. Degradation rates reflect average values from multiple studies, accounting for variability in experimental conditions.</p>
+                            
+                            <h3>Model Assumptions</h3>
+                            <p>The simulation assumes uniform temperature distribution, constant heat transfer rates, and first-order degradation kinetics. While real-world scenarios involve more complexity, these simplifications provide educational clarity while maintaining reasonable accuracy.</p>
                         </div>
                     </section>
                 </div>
